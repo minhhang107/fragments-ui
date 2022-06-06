@@ -1,13 +1,16 @@
 // src/app.js
 
-import { Auth, getUser } from "./auth";
-import { getUserFragments } from "./api";
+import { Auth, getUser } from './auth';
+import { getUserFragments, postFragment } from './api';
 
 async function init() {
   // Get our UI elements
-  const userSection = document.querySelector("#user");
-  const loginBtn = document.querySelector("#login");
-  const logoutBtn = document.querySelector("#logout");
+  const userSection = document.querySelector('#user');
+  const postSection = document.querySelector('#post-section');
+  const loginBtn = document.querySelector('#login');
+  const logoutBtn = document.querySelector('#logout');
+  const postBtn = document.querySelector('#post-btn');
+  const fragmentInput = document.querySelector('#fragment-input');
 
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
@@ -31,18 +34,27 @@ async function init() {
 
   getUserFragments(user);
 
+  postBtn.onclick = () => {
+    postFragment(user, fragmentInput.value, 'text/plain');
+  };
+
+  fragmentInput.addEventListener('focus', () => {
+    document.querySelector('#post-result').textContent = '';
+  });
+
   // Log the user info for debugging purposes
   console.log({ user });
 
   // Update the UI to welcome the user
+  postSection.hidden = false;
   userSection.hidden = false;
 
   // Show the user's username
-  userSection.querySelector(".username").innerText = user.username;
+  userSection.querySelector('.username').innerText = user.username;
 
   // Disable the Login button
   loginBtn.disabled = true;
 }
 
 // Wait for the DOM to be ready, then start the app
-addEventListener("DOMContentLoaded", init);
+addEventListener('DOMContentLoaded', init);

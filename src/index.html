@@ -9,12 +9,17 @@
   <body>
     <h1>Fragments UI</h1>
     <section>
-      <nav>
-        <button id="login">Login</button> <button id="logout">Logout</button>
-      </nav>
+      <nav><button id="login">Login</button> <button id="logout">Logout</button></nav>
     </section>
     <section hidden id="user">
       <h2>Hello <span class="username"></span>!</h2>
+    </section>
+
+    <section hidden id="post-section">
+      <h3>Post your fragment!</h3>
+      <input type="text" id="fragment-input" />
+      <p id="post-result"></p>
+      <button type="submit" id="post-btn">Post</button>
     </section>
   </body>
 </html>
