@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "lint": "eslint --config .eslintrc.js src/**"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,9 @@
   },
   "homepage": "https://github.com/minhhang107/fragments-ui#readme",
   "devDependencies": {
+    "eslint": "^8.16.0",
     "parcel": "^2.5.0",
+    "prettier": "2.6.2",
     "process": "^0.11.10",
     "querystring-es3": "^0.2.1"
   },

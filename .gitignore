@@ -106,3 +106,5 @@ dist
 # Build files
 dist
 .parcel-cache
+
+.vscode
