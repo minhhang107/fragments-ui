@@ -7,9 +7,12 @@ async function init() {
   // Get our UI elements
   const userSection = document.querySelector('#user');
   const postSection = document.querySelector('#post-section');
+  const getSection = document.querySelector('#get-section');
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
   const postBtn = document.querySelector('#post-btn');
+  const getBtn = document.querySelector('#get-btn');
+  const expandCheckbox = document.querySelector('#expand-checkbox');
   const fragmentInput = document.querySelector('#fragment-input');
 
   // Wire up event handlers to deal with login and logout.
@@ -32,11 +35,14 @@ async function init() {
     return;
   }
 
-  getUserFragments(user);
-
   postBtn.onclick = () => {
     postFragment(user, fragmentInput.value, 'text/plain');
   };
+
+  getBtn.addEventListener('click', () => {
+    console.log(expandCheckbox.checked);
+    getUserFragments(user, expandCheckbox.checked);
+  });
 
   fragmentInput.addEventListener('focus', () => {
     document.querySelector('#post-result').textContent = '';
@@ -47,6 +53,7 @@ async function init() {
 
   // Update the UI to welcome the user
   postSection.hidden = false;
+  getSection.hidden = false;
   userSection.hidden = false;
 
   // Show the user's username
