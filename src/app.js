@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getUserFragments, postFragment } from './api';
+import { getFragment, getUserFragments, postFragment } from './api';
 
 async function init() {
   // Get our UI elements
@@ -11,9 +11,15 @@ async function init() {
   const loginBtn = document.querySelector('#login');
   const logoutBtn = document.querySelector('#logout');
   const postBtn = document.querySelector('#post-btn');
-  const getBtn = document.querySelector('#get-btn');
+  const getFragmentsBtn = document.querySelector('#get-fragments-btn');
+  const getDataBtn = document.querySelector('#get-data-btn');
+  const getInfoBtn = document.querySelector('#get-info-btn');
+  const fragmentType = document.querySelector('#fragment-type');
+  const convertType = document.querySelector('#convert-type');
+  const fragmentId = document.querySelector('#fragment-id');
   const expandCheckbox = document.querySelector('#expand-checkbox');
   const fragmentInput = document.querySelector('#fragment-input');
+  const fileInput = document.querySelector('#file-input');
 
   // Wire up event handlers to deal with login and logout.
   loginBtn.onclick = () => {
@@ -36,16 +42,30 @@ async function init() {
   }
 
   postBtn.onclick = () => {
-    postFragment(user, fragmentInput.value, 'text/plain');
+    postFragment(user, fragmentInput.value, fragmentType.value);
   };
 
-  getBtn.addEventListener('click', () => {
-    console.log(expandCheckbox.checked);
+  getFragmentsBtn.addEventListener('click', () => {
     getUserFragments(user, expandCheckbox.checked);
+  });
+
+  getDataBtn.addEventListener('click', () => {
+    if (fragmentId.value === '') console.error("Fragment ID can't be blank.");
+    else getFragment(user, fragmentId.value, convertType.value, false);
+  });
+
+  getInfoBtn.addEventListener('click', () => {
+    if (fragmentId.value === '') console.error("Fragment ID can't be blank.");
+    else getFragment(user, fragmentId.value, '', true);
+  });
+
+  fragmentType.addEventListener('change', () => {
+    fileInput.accept = fragmentType.value;
   });
 
   fragmentInput.addEventListener('focus', () => {
     document.querySelector('#post-result').textContent = '';
+    document.querySelector('#post-result').hidden = true;
   });
 
   // Log the user info for debugging purposes

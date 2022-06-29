@@ -27,6 +27,30 @@ export async function getUserFragments(user, expand) {
   }
 }
 
+export async function getFragment(user, id, ext, info) {
+  console.log('Requesting a single fragment...');
+
+  let data;
+  try {
+    let url = `${apiUrl}/v1/fragments/${id}${ext}`;
+    if (info) url += '/info';
+    const res = await fetch(url, {
+      // Generate headers with the proper Authorization bearer token to pass
+      headers: user.authorizationHeaders(),
+    });
+
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+
+    if (info) data = await res.json();
+    else data = await res.text();
+    console.log('Got user fragment data', { data });
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragments/:id', { err });
+  }
+}
+
 export async function postFragment(user, fragment, type) {
   console.log('Posting user fragment data...');
   const postResult = document.querySelector('#post-result');
@@ -42,10 +66,12 @@ export async function postFragment(user, fragment, type) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
+    postResult.hidden = false;
     postResult.innerHTML = 'Fragment posted successfully!';
     postResult.style.color = 'green';
     console.log('User fragment data posted', { fragment });
   } catch (err) {
+    postResult.hidden = false;
     postResult.innerHTML = 'Error posting fragment!';
     postResult.style.color = 'red';
     console.error('Unable to call POST /v1/fragment', { err });
