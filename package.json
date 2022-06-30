@@ -2,7 +2,6 @@
   "name": "fragments-ui",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "source": "src/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,12 +22,12 @@
   "homepage": "https://github.com/minhhang107/fragments-ui#readme",
   "devDependencies": {
     "eslint": "^8.16.0",
-    "parcel": "^2.5.0",
-    "prettier": "2.6.2",
-    "process": "^0.11.10",
-    "querystring-es3": "^0.2.1"
+    "prettier": "2.6.2"
   },
   "dependencies": {
-    "aws-amplify": "^4.3.22"
+    "aws-amplify": "^4.3.22",
+    "parcel": "^2.6.2",
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1"
   }
 }

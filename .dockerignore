@@ -1,0 +1,10 @@
+.github/
+.vscode/
+.parcel-cache/
+node_modules/
+dist/
+.eslintrc.js
+.git/
+.gitignore
+.prettier*
+
