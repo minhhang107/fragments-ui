@@ -53,8 +53,12 @@ export async function getFragment(user, id, ext, info) {
 
 export async function postFragment(user, fragment, type) {
   console.log('Posting user fragment data...');
-  const postResult = document.querySelector('#post-result');
+
   try {
+    if (type == 'application/json') {
+      fragment = JSON.parse(JSON.stringify(fragment).replace(/\\n/g, '').replace(/ /g, ''));
+    }
+
     const res = await fetch(`${apiUrl}/v1/fragments`, {
       method: 'POST',
       headers: {
@@ -66,14 +70,8 @@ export async function postFragment(user, fragment, type) {
     if (!res.ok) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
-    postResult.hidden = false;
-    postResult.innerHTML = 'Fragment posted successfully!';
-    postResult.style.color = 'green';
     console.log('User fragment data posted', { fragment });
   } catch (err) {
-    postResult.hidden = false;
-    postResult.innerHTML = 'Error posting fragment!';
-    postResult.style.color = 'red';
     console.error('Unable to call POST /v1/fragment', { err });
   }
 }

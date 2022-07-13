@@ -42,7 +42,16 @@ async function init() {
   }
 
   postBtn.onclick = () => {
-    postFragment(user, fragmentInput.value, fragmentType.value);
+    if (fileInput.files.length != 0) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileData = e.target.result;
+        postFragment(user, fileData, fragmentType.value);
+      };
+
+      reader.readAsText(file);
+    } else postFragment(user, fragmentInput.value, fragmentType.value);
   };
 
   getFragmentsBtn.addEventListener('click', () => {
@@ -61,11 +70,6 @@ async function init() {
 
   fragmentType.addEventListener('change', () => {
     fileInput.accept = fragmentType.value;
-  });
-
-  fragmentInput.addEventListener('focus', () => {
-    document.querySelector('#post-result').textContent = '';
-    document.querySelector('#post-result').hidden = true;
   });
 
   // Log the user info for debugging purposes
