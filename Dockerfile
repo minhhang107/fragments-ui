@@ -5,11 +5,7 @@ FROM node:16.15.1-alpine@sha256:c785e617c8d7015190c0d41af52cc69be8a16e3d9eb7cb21
 LABEL maintainer="Minh Hang Nguyen <mhnguyen16@myseneca.ca>" \
       description="fragments-ui web app for testing"
 
-# Reduce npm spam when installing within Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#loglevel
 ENV NPM_CONFIG_LOGLEVEL=warn
-# Disable colour when run inside Docker
-# https://docs.npmjs.com/cli/v8/using-npm/config#color
 ENV NPM_CONFIG_COLOR=false
 
 ENV NODE_ENV=production
