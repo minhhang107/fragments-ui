@@ -27,14 +27,12 @@ export async function getUserFragments(user, expand) {
   }
 }
 
-export async function getFragment(user, id, ext, info) {
-  console.log('Requesting a single fragment...');
+export async function getFragmentData(user, id, ext) {
+  console.log('Requesting fragment data...');
 
   let data;
   try {
-    let url = `${apiUrl}/v1/fragments/${id}${ext}`;
-    if (info) url += '/info';
-    const res = await fetch(url, {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}${ext}`, {
       // Generate headers with the proper Authorization bearer token to pass
       headers: user.authorizationHeaders(),
     });
@@ -43,11 +41,41 @@ export async function getFragment(user, id, ext, info) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
 
-    if (info) data = await res.json();
-    else data = await res.text();
+    const contentType = res.headers.get('Content-Type');
+
+    if (contentType === 'application/json') {
+      data = await res.json();
+    } else if (contentType.includes('image')) {
+      data = await res.blob();
+      const url = URL.createObjectURL(data);
+      const image = document.querySelector('#image');
+      image.src = url;
+    } else {
+      data = await res.text();
+      document.querySelector('#data').textContent = data;
+    }
+
     console.log('Got user fragment data', { data });
   } catch (err) {
     console.error('Unable to call GET /v1/fragments/:id', { err });
+  }
+}
+
+export async function getFragmentInfo(user, id) {
+  console.log('Requesting fragment info...');
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}/info`, {
+      // Generate headers with the proper Authorization bearer token to pass
+      headers: user.authorizationHeaders(),
+    });
+
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    console.log('Got user fragment info', { data });
+  } catch (err) {
+    console.error('Unable to call GET /v1/fragments/:id/info', { err });
   }
 }
 
@@ -71,6 +99,7 @@ export async function postFragment(user, fragment, type) {
       throw new Error(`${res.status} ${res.statusText}`);
     }
     console.log('User fragment data posted', { fragment });
+    console.log(res);
   } catch (err) {
     console.error('Unable to call POST /v1/fragment', { err });
   }

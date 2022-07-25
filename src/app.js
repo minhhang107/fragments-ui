@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getFragment, getUserFragments, postFragment } from './api';
+import { getFragmentData, getFragmentInfo, getUserFragments, postFragment } from './api';
 
 async function init() {
   // Get our UI elements
@@ -42,16 +42,32 @@ async function init() {
   }
 
   postBtn.onclick = () => {
+    if (fragmentType.value === '') {
+      alert('Please select a type');
+      return;
+    }
+
     if (fileInput.files.length != 0) {
       const file = fileInput.files[0];
+
+      if (fragmentType.value.includes('image')) {
+        postFragment(user, file, fragmentType.value);
+        fileInput.value = null;
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (e) => {
         const fileData = e.target.result;
         postFragment(user, fileData, fragmentType.value);
       };
-
       reader.readAsText(file);
-    } else postFragment(user, fragmentInput.value, fragmentType.value);
+
+      return;
+    }
+
+    if (fragmentInput.value === '') alert('Please enter a fragment');
+    else postFragment(user, fragmentInput.value, fragmentType.value);
   };
 
   getFragmentsBtn.addEventListener('click', () => {
@@ -59,17 +75,18 @@ async function init() {
   });
 
   getDataBtn.addEventListener('click', () => {
-    if (fragmentId.value === '') console.error("Fragment ID can't be blank.");
-    else getFragment(user, fragmentId.value, convertType.value, false);
+    if (fragmentId.value === '') alert("Fragment ID can't be blank.");
+    else getFragmentData(user, fragmentId.value, convertType.value);
   });
 
   getInfoBtn.addEventListener('click', () => {
-    if (fragmentId.value === '') console.error("Fragment ID can't be blank.");
-    else getFragment(user, fragmentId.value, '', true);
+    if (fragmentId.value === '') alert("Fragment ID can't be blank.");
+    else getFragmentInfo(user, fragmentId.value);
   });
 
   fragmentType.addEventListener('change', () => {
     fileInput.accept = fragmentType.value;
+    fragmentInput.disabled = fragmentType.value.includes('image') ? true : false;
   });
 
   // Log the user info for debugging purposes

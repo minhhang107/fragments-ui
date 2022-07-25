@@ -24,10 +24,15 @@
           id="fragment-type"
           style="background-color: white; border: 1px solid black"
         >
+          <option value="">Select a type</option>
           <option value="application/json">application/json</option>
           <option value="text/html">text/html</option>
           <option value="text/markdown">text/markdown</option>
           <option value="text/plain">text/plain</option>
+          <option value="image/png">image/png</option>
+          <option value="image/jpeg">image/jpeg</option>
+          <option value="image/gif">image/gif</option>
+          <option value="image/webp">image/webp</option>
         </select>
       </span>
 
@@ -60,16 +65,20 @@
             <option value=".md">text/markdown</option>
             <option value=".html">text/html</option>
             <option value=".json">application/json</option>
-            <!-- <option value=".png">image/png</option>
-          <option value=".jpg">image/jpg</option>
-          <option value=".jpeg">image/jpeg</option>
-          <option value=".gif">image/gif</option> -->
+            <option value=".png">image/png</option>
+            <option value=".jpeg">image/jpeg</option>
+            <option value=".gif">image/gif</option>
+            <option value=".webp">image/webp</option>
           </select>
         </span>
         <div>
           <button id="get-data-btn" style="margin-top: 5px">Get data</button>
           <button id="get-info-btn" style="margin-top: 5px">Get info</button>
         </div>
+
+        <label>Fragment data:</label>
+        <div id="data"></div>
+        <img id="image" />
       </section>
     </section>
   </body>
