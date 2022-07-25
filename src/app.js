@@ -1,7 +1,13 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { getFragmentData, getFragmentInfo, getUserFragments, postFragment } from './api';
+import {
+  deleteFragment,
+  getFragmentData,
+  getFragmentInfo,
+  getUserFragments,
+  postFragment,
+} from './api';
 
 async function init() {
   // Get our UI elements
@@ -14,6 +20,7 @@ async function init() {
   const getFragmentsBtn = document.querySelector('#get-fragments-btn');
   const getDataBtn = document.querySelector('#get-data-btn');
   const getInfoBtn = document.querySelector('#get-info-btn');
+  const deleteBtn = document.querySelector('#delete-btn');
   const fragmentType = document.querySelector('#fragment-type');
   const convertType = document.querySelector('#convert-type');
   const fragmentId = document.querySelector('#fragment-id');
@@ -82,6 +89,10 @@ async function init() {
   getInfoBtn.addEventListener('click', () => {
     if (fragmentId.value === '') alert("Fragment ID can't be blank.");
     else getFragmentInfo(user, fragmentId.value);
+  });
+
+  deleteBtn.addEventListener('click', () => {
+    deleteFragment(user, fragmentId.value);
   });
 
   fragmentType.addEventListener('change', () => {
