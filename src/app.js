@@ -7,6 +7,7 @@ import {
   getFragmentInfo,
   getUserFragments,
   postFragment,
+  updateFragment,
 } from './api';
 
 async function init() {
@@ -18,13 +19,15 @@ async function init() {
   const logoutBtn = document.querySelector('#logout');
   const postBtn = document.querySelector('#post-btn');
   const getFragmentsBtn = document.querySelector('#get-fragments-btn');
+  const getExpandedFragmentsBtn = document.querySelector('#get-expanded-fragments-btn');
   const getDataBtn = document.querySelector('#get-data-btn');
   const getInfoBtn = document.querySelector('#get-info-btn');
   const deleteBtn = document.querySelector('#delete-btn');
+  const updateBtn = document.querySelector('#update-btn');
   const fragmentType = document.querySelector('#fragment-type');
   const convertType = document.querySelector('#convert-type');
   const fragmentId = document.querySelector('#fragment-id');
-  const expandCheckbox = document.querySelector('#expand-checkbox');
+  const updateFragmentId = document.querySelector('#update-fragment-id');
   const fragmentInput = document.querySelector('#fragment-input');
   const fileInput = document.querySelector('#file-input');
 
@@ -57,6 +60,11 @@ async function init() {
     if (fileInput.files.length != 0) {
       const file = fileInput.files[0];
 
+      if (file.type !== fragmentType.value) {
+        alert('Please choose a file of selected type');
+        return;
+      }
+
       if (fragmentType.value.includes('image')) {
         postFragment(user, file, fragmentType.value);
         fileInput.value = null;
@@ -78,7 +86,11 @@ async function init() {
   };
 
   getFragmentsBtn.addEventListener('click', () => {
-    getUserFragments(user, expandCheckbox.checked);
+    getUserFragments(user, false);
+  });
+
+  getExpandedFragmentsBtn.addEventListener('click', () => {
+    getUserFragments(user, true);
   });
 
   getDataBtn.addEventListener('click', () => {
@@ -93,6 +105,44 @@ async function init() {
 
   deleteBtn.addEventListener('click', () => {
     deleteFragment(user, fragmentId.value);
+  });
+
+  updateBtn.addEventListener('click', () => {
+    const id = updateFragmentId.value;
+    if (id === '') alert("Fragment ID can't be blank.");
+
+    if (fragmentType.value === '') {
+      alert('Please select a type');
+      return;
+    }
+
+    if (fileInput.files.length != 0) {
+      const file = fileInput.files[0];
+
+      console.log(file.type);
+      if (file.type !== fragmentType.value) {
+        alert('Please choose a file of selected type');
+        return;
+      }
+
+      if (fragmentType.value.includes('image')) {
+        updateFragment(user, id, file, fragmentType.value);
+        fileInput.value = null;
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileData = e.target.result;
+        updateFragment(user, id, fileData, fragmentType.value);
+      };
+      reader.readAsText(file);
+
+      return;
+    }
+
+    if (fragmentInput.value === '') alert('Please enter a fragment');
+    else updateFragment(user, id, fragmentInput.value, fragmentType.value);
   });
 
   fragmentType.addEventListener('change', () => {

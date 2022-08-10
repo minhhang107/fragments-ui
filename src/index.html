@@ -16,65 +16,80 @@
     </section>
 
     <section hidden id="post-section">
-      <h3 style="margin-top: 0; margin-bottom: 5px">Post your fragment</h3>
-      <span style="display: inline-block"><label for="fragment-type">Fragment type: </label></span>
-      <span style="display: inline-block"
-        ><select
-          name="fragment-type"
-          id="fragment-type"
-          style="background-color: white; border: 1px solid black"
-        >
-          <option value="">Select a type</option>
-          <option value="application/json">application/json</option>
-          <option value="text/html">text/html</option>
-          <option value="text/markdown">text/markdown</option>
-          <option value="text/plain">text/plain</option>
-          <option value="image/png">image/png</option>
-          <option value="image/jpeg">image/jpeg</option>
-          <option value="image/gif">image/gif</option>
-          <option value="image/webp">image/webp</option>
-        </select>
-      </span>
+      <h3 style="margin-top: 0; margin-bottom: 5px">Post/update your fragment</h3>
+      <div>
+        <span style="display: inline-block">Fragment ID: </span>
+        <span style="display: inline-block"><input type="text" id="update-fragment-id" /></span>
+      </div>
+      <div>
+        <span style="display: inline-block">Content: </span>
+        <span style="display: inline-block">
+          <input type="text" id="fragment-input" style="margin-top: 10px" />
+        </span>
 
-      <input type="text" id="fragment-input" style="margin-top: 10px" />
+        <span style="display: inline-block"
+          ><select
+            name="fragment-type"
+            id="fragment-type"
+            style="background-color: white; border: 1px solid black"
+          >
+            <option value="">Select type</option>
+            <option value="application/json">application/json</option>
+            <option value="text/html">text/html</option>
+            <option value="text/markdown">text/markdown</option>
+            <option value="text/plain">text/plain</option>
+            <option value="image/png">image/png</option>
+            <option value="image/jpeg">image/jpeg</option>
+            <option value="image/gif">image/gif</option>
+            <option value="image/webp">image/webp</option>
+          </select>
+        </span>
+      </div>
       <input type="file" id="file-input" style="background-color: white; padding-left: 0" />
 
       <button id="post-btn" style="margin: 0">Post</button>
+      <button id="update-btn">Update</button>
     </section>
     <br />
     <section hidden id="get-section">
       <section>
         <h3 style="margin-top: 0; margin-bottom: 5px">Get your fragments</h3>
-        <div><input type="checkbox" id="expand-checkbox" />Expand fragments data</div>
-        <button id="get-fragments-btn" style="margin-top: 5px">Get all fragments</button>
+        <button id="get-fragments-btn" style="margin-top: 5px; display: inline-block">
+          Get all fragments
+        </button>
+        <button id="get-expanded-fragments-btn" style="margin-top: 5px; display: inline-block">
+          Get expanded fragments
+        </button>
       </section>
       <br />
       <section>
-        <h3 style="margin-top: 0; margin-bottom: 5px">Get a fragment</h3>
-        <span style="display: inline-block">Fragment ID: </span>
-        <span style="display: inline-block"><input type="text" id="fragment-id" /></span>
-        <span style="display: inline-block"><label for="convert-type">Convert to: </label></span>
-        <span style="display: inline-block"
-          ><select
-            name="convert-type"
-            id="convert-type"
-            style="background-color: white; border: 1px solid black"
-          >
-            <option value="">none</option>
-            <option value=".txt">text/plain</option>
-            <option value=".md">text/markdown</option>
-            <option value=".html">text/html</option>
-            <option value=".json">application/json</option>
-            <option value=".png">image/png</option>
-            <option value=".jpeg">image/jpeg</option>
-            <option value=".gif">image/gif</option>
-            <option value=".webp">image/webp</option>
-          </select>
-        </span>
+        <h3 style="margin-top: 0; margin-bottom: 5px">Get/delete a fragment</h3>
+        <div style="margin-top: 5px">
+          <span style="display: inline-block">Fragment ID: </span>
+          <span style="display: inline-block"><input type="text" id="fragment-id" /></span>
+          <span style="display: inline-block"
+            ><select
+              name="convert-type"
+              id="convert-type"
+              style="background-color: white; border: 1px solid black"
+            >
+              <option value="">Convert to</option>
+              <option value=".txt">text/plain</option>
+              <option value=".md">text/markdown</option>
+              <option value=".html">text/html</option>
+              <option value=".json">application/json</option>
+              <option value=".png">image/png</option>
+              <option value=".jpeg">image/jpeg</option>
+              <option value=".gif">image/gif</option>
+              <option value=".webp">image/webp</option>
+            </select>
+          </span>
+        </div>
+
         <div style="margin-top: 5px">
           <button id="get-data-btn">Get data</button>
           <button id="get-info-btn">Get info</button>
-          <button id="delete-btn">Delete fragment</button>
+          <button id="delete-btn">Delete</button>
         </div>
 
         <label>Fragment data:</label>
