@@ -63,7 +63,6 @@ async function init() {
       var ext = name.substr(name.lastIndexOf('.') + 1, name.length);
 
       if (extToType(ext) !== fragmentType.value) {
-        console.log(file.type);
         alert('Please choose a file of selected type');
         return;
       }
