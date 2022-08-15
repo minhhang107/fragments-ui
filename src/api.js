@@ -42,17 +42,31 @@ export async function getFragmentData(user, id, ext) {
     }
 
     const contentType = res.headers.get('Content-Type');
+    const dataContainer = document.querySelector('#data');
+
+    // clear data before getting new data
+    dataContainer.textContent = '';
+    if (dataContainer.hasChildNodes()) {
+      dataContainer.removeChild(dataContainer.childNodes[0]);
+    }
 
     if (contentType === 'application/json') {
       data = await res.json();
+      dataContainer.textContent = JSON.stringify(data, null, 4);
     } else if (contentType.includes('image')) {
       data = await res.blob();
       const url = URL.createObjectURL(data);
       const image = document.querySelector('#image');
       image.src = url;
+    } else if (contentType.includes('markdown')) {
+      data = await res.text();
+      dataContainer.textContent = data;
+    } else if (contentType.includes('html')) {
+      data = await res.text();
+      dataContainer.insertAdjacentHTML('beforeend', data);
     } else {
       data = await res.text();
-      document.querySelector('#data').textContent = data;
+      dataContainer.textContent = data;
     }
 
     console.log('Got user fragment data', { data });

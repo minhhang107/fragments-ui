@@ -59,8 +59,11 @@ async function init() {
 
     if (fileInput.files.length != 0) {
       const file = fileInput.files[0];
+      const name = file.name;
+      var ext = name.substr(name.lastIndexOf('.') + 1, name.length);
 
-      if (file.type !== fragmentType.value) {
+      if (extToType(ext) !== fragmentType.value) {
+        console.log(file.type);
         alert('Please choose a file of selected type');
         return;
       }
@@ -163,6 +166,22 @@ async function init() {
 
   // Disable the Login button
   loginBtn.disabled = true;
+}
+
+function extToType(ext) {
+  const extensions = ['txt', 'md', 'html', 'json', 'png', 'jpeg', 'webp', 'gif'];
+  const types = [
+    'text/plain',
+    'text/markdown',
+    'text/html',
+    'application/json',
+    'image/png',
+    'image/jpeg',
+    'image/webp',
+    'image/gif',
+  ];
+  const index = extensions.findIndex((extension) => extension === ext);
+  return types[index];
 }
 
 // Wait for the DOM to be ready, then start the app
