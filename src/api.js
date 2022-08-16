@@ -30,7 +30,14 @@ export async function getUserFragments(user, expand) {
 export async function getFragmentData(user, id, ext) {
   console.log('Requesting fragment data...');
 
+  const dataContainer = document.querySelector('#data');
+  const image = document.querySelector('#image');
   let data;
+
+  // clear data before getting new data
+  dataContainer.textContent = '';
+  image.src = '';
+
   try {
     const res = await fetch(`${apiUrl}/v1/fragments/${id}${ext}`, {
       // Generate headers with the proper Authorization bearer token to pass
@@ -42,13 +49,6 @@ export async function getFragmentData(user, id, ext) {
     }
 
     const contentType = res.headers.get('Content-Type');
-    const dataContainer = document.querySelector('#data');
-
-    // clear data before getting new data
-    dataContainer.textContent = '';
-    if (dataContainer.hasChildNodes()) {
-      dataContainer.removeChild(dataContainer.childNodes[0]);
-    }
 
     if (contentType === 'application/json') {
       data = await res.json();
@@ -56,7 +56,6 @@ export async function getFragmentData(user, id, ext) {
     } else if (contentType.includes('image')) {
       data = await res.blob();
       const url = URL.createObjectURL(data);
-      const image = document.querySelector('#image');
       image.src = url;
     } else if (contentType.includes('markdown')) {
       data = await res.text();
